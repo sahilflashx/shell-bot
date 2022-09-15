@@ -1,14 +1,18 @@
-FROM ubuntu:20.04
+FROM python:3.9
 
-RUN apt-get install curl -y
-RUN curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-RUN apt install nodejs
+RUN apt update && apt upgrade -y
+RUN apt install python3-pip -y
+RUN apt install ffmpeg -y
+
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
+RUN apt-get install -y nodejs
 RUN npm i -g npm
 
 RUN mkdir /app/
 COPY . /app
 WORKDIR /app
 
-RUN npm install
+RUN pip3 install --upgrade pip
+RUN pip3 install -U -r requirements.txt
 
-CMD node server.js
+CMD python3 -m bot
